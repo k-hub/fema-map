@@ -44,16 +44,10 @@ def show_fema_data(page_num=1):
     from query_functions import get_fema_data
 
     RESULTS_PER_PAGE = 100
-    year = None
-    disaster_type = None
-    order = None
 
-    if 'year' in request.args:
-        year = request.args['year']
-    if 'disaster-type' in request.args:
-        disaster_type = request.args['disaster-type']
-    if 'order' in request.args:
-        order = request.args['order']
+    year = request.args.get('year', None)
+    disaster_type = request.args.get('disaster-type', None)
+    order = request.args.get('order', None)
 
     fema_base_query_obj = get_fema_data(year, disaster_type, order)
     pagination_obj = fema_base_query_obj.paginate(
