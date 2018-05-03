@@ -37,6 +37,7 @@ def get_fema_data(year=None, disaster_type=None, order=None):
             - asc
             - desc
     """
+
     result = None
     base_query = Fema.query.with_entities(
                 Fema.incident_begin_date,
@@ -60,5 +61,8 @@ def get_fema_data(year=None, disaster_type=None, order=None):
                 extract('year', Fema.incident_begin_date) == year)
     elif disaster_type:
         result = base_query.filter(Fema.incident_type == disaster_type)
+    # No filters have been applied so just return.
+    elif not year or not disaster_type:
+        return base_query
 
     return result
