@@ -1,6 +1,5 @@
 import os
 from flask import Flask, jsonify, request
-# from werkzeug.contrib.cache import MemcachedCache
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 
@@ -13,8 +12,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 db.Model.metadata.reflect(db.engine)
-
-# cache = MemcachedCache(['127.0.0.1:11211'])
 
 
 @app.route('/api/v1.0/disasters/<int:page_num>', methods=['GET'])
@@ -42,6 +39,7 @@ def show_fema_data(page_num=1):
     - 'order': order results by date in ascending or descending order.
         Example: asc or desc
     """
+
     from models import FemaSchema
     from query_functions import get_fema_data
 
