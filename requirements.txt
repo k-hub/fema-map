@@ -1,9 +1,11 @@
+attrs==17.4.0
 click==6.7
 configparser==3.5.0
 Flask==1.0
 flask-marshmallow==0.9.0
 Flask-Script==2.0.6
 Flask-SQLAlchemy==2.1
+funcsigs==1.0.2
 itsdangerous==0.24
 Jinja2==2.10
 Mako==1.0.7
@@ -11,11 +13,15 @@ MarkupSafe==1.0
 marshmallow==2.15.1
 marshmallow-sqlalchemy==0.13.2
 mccabe==0.6.1
+more-itertools==4.1.0
+pluggy==0.6.0
 psycopg2==2.6.1
+py==1.5.3
 pycodestyle==2.4.0
 pydocstyle==2.1.1
 pyflakes==1.6.0
 pylama==7.4.3
+pytest==3.5.1
 python-dateutil==2.7.2
 python-editor==1.0.3
 python-memcached==1.59
