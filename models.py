@@ -9,13 +9,13 @@ class Fema(db.Model):
             self.id, self.fy_declared, self.state, self.incident_type)
 
 
-class Coordinate(db.Model):
+class State(db.Model):
     __tablename__ = 'geo_states'
-    __bind_key__ = 'coordinates'
+    __bind_key__ = 'states'
 
     def __repr__(self):
-        return '<State abbrev={} state={} latitude={} longitude={}>'.format(
-            self.abbrev, self.state, self.latitude, self.longitude)
+        return '<State abbrev={} state={}'.format(
+            self.abbrev, self.state)
 
 
 class FemaSchema(ma.ModelSchema):
@@ -24,6 +24,7 @@ class FemaSchema(ma.ModelSchema):
         fields = ('fy_declared', 'state', 'incident_type')
 
 
-class CoordinateSchema(ma.ModelSchema):
+class StateSchema(ma.ModelSchema):
     class Meta:
-        model = Coordinate
+        model = State
+        fields = ('state', 'abbrev')
