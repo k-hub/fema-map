@@ -26,7 +26,8 @@ db.Model.metadata.reflect(db.engine)
 
 @app.route('/api/v1.0/disasters/<int:page_num>', methods=['GET'])
 def show_fema_data(page_num=1):
-    """Return JSON containing FEMA data, number of pages, number of
+    """Return JSON containing FEMA data, which includes state abbreviation,
+    disaster type, and year of incident, number of pages, number of
     previous page, and number of next page.
 
     Example of how to use endpoint:
@@ -64,38 +65,50 @@ def show_fema_data(page_num=1):
                         page_num, RESULTS_PER_PAGE, error_out=False)
     fema_schema = FemaSchema(many=True)
     fema_data = fema_schema.dump(pagination_obj.items).data
+    print fema_data
 
     return jsonify({
             'data': fema_data,
             'num_pages': pagination_obj.pages,
             'next_num': pagination_obj.next_num,
             'prev_num': pagination_obj.prev_num
-        })
+            })
 
 
-# @app.route('/api/v1.0/disasters', methods=['GET'])
-# def get_fema_results():
-#     from models import FemaSchema, CoordinateSchema
-#     from query_functions import get_fema_query_results
+# @app.route('/api/v1.0/disasters-by-year/<int:year>', methods=['GET'])
+# def get_fema_results(year):
+#     """Return JSON containing FEMA data and State data including
+#     state, state abbreviation, disaster type, and year of incident, and count
+#     of how many incidences within a particular year.
 #
-#     RESULTS_PER_PAGE = 100
+#     Example of how to use endpoint:
+#         '/api/v1.0/disasters-by-year/1989'
 #
-#     year = request.args.get('year', None)
-#     disaster_type = request.args.get('disaster-type', None)
+#     Parameter:
+#     - 'year': an integer between 1953 - 2018 (inclusive).
+#
+#     This endpoint accepts a optional parameter. For example:
+#         '/api/v1.0/disasters/12?order=asc'
+#
+#     Optional paramters:
+#     - 'order': order results in ascending or descending order by state name or
+#         disaster type. If omitted, the default is state_asc.
+#         To order by state name: state_asc or state_desc
+#         To order by disaster type: disaster_asc or disaster_desc
+#     """
+#     from models import FemaSchema, StateSchema
+#     from query_functions import get_joined_fema_data
+#
+#     input_year = year
 #     order = request.args.get('order', None)
 #
-#     if disaster_type:
-#         disaster_type = get_formatted_disaster_name(disaster_type)
-#
-#     fema_base_query_obj = get_fema_query_results(year, disaster_type, order)
-#     print fema_base_query_obj[0].count
-#     fema_schema = FemaSchema(many=True)
-#     # coordinate_schema = CoordinateSchema(many=True)
-#     fema_data = fema_schema.dump(fema_base_query_obj).data
+#     fema_base_query_obj = get_joined_fema_data(input_year, order)
+#     # fema_schema = FemaSchema(many=True)
+#     # fema_state_data = fema_schema.dump(fema_base_query_obj).data
 #
 #     return jsonify({
-#             'data': fema_data
-#         })
+#             'data': fema_base_query_obj.all()
+#             })
 
 
 if __name__ == '__main__':
